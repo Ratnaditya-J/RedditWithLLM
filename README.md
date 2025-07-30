@@ -43,41 +43,83 @@ A secure application that connects your Reddit account to ChatGPT, allowing you 
 
 ### Prerequisites
 
-1. **Reddit API Credentials**:
-   - Go to [Reddit App Preferences](https://www.reddit.com/prefs/apps)
-   - Create a new application
-   - Note down your `client_id`, `client_secret`, `username`, and `password`
+1. **Reddit API Credentials** (Step-by-step guide):
 
-2. **LLM API Key**:
-   - Obtain an API key from your preferred LLM provider (OpenAI, Anthropic, etc.)
+   **Step 1: Go to Reddit App Preferences**
+   - Visit [https://www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps)
+   - Log in to your Reddit account if not already logged in
+
+   **Step 2: Create a New Application**
+   - Click "Create App" or "Create Another App" button
+   - Fill out the form:
+     - **Name**: Choose any name (e.g., "RedditWithLLM")
+     - **App type**: Select **"script"** (this is important!)
+     - **Description**: Optional (e.g., "Personal Reddit data analysis")
+     - **About URL**: Leave blank or add any URL
+     - **Redirect URI**: Enter `http://localhost:8080` (required but not used)
+   - Click "Create app"
+
+   **Step 3: Extract Your Credentials**
+   After creating the app, you'll see your app details. Note down these values:
+   - **Client ID**: The string under your app name (looks like: `abcdef123456`)
+   - **Client Secret**: The "secret" field (looks like: `xyz789secretstring`)
+   - **Username**: Your Reddit username
+   - **Password**: Your Reddit account password
+
+   **⚠️ Important Notes:**
+   - Keep these credentials secure and never share them
+   - The app type MUST be "script" for this tool to work
+   - You'll enter these credentials when you run the application (they're never stored)
+
+2. **OpenAI API Key** (for ChatGPT):
+
+   **Step 1: Get OpenAI API Key**
+   - Visit [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+   - Log in to your OpenAI account (create one if needed)
+   - Click "Create new secret key"
+   - Copy the API key (starts with `sk-`)
+   - **Important**: You'll need billing set up on your OpenAI account
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Ratnaditya-J/RedditWithLLM.git
 cd RedditWithLLM
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Set up configuration
-cp config.example.json config.json
-# Edit config.json with your credentials
+# Run the application
+python main.py
 ```
 
-### Configuration
+### How It Works
 
-The application requires two sets of credentials:
+**🔒 Secure Runtime Credential Collection:**
+When you run the application, it will securely prompt you for:
 
-1. **Reddit Authentication**:
+1. **Reddit Credentials** (from the app you created above):
    - Client ID
-   - Client Secret
+   - Client Secret  
    - Username
-   - Password
+   - Password (hidden input)
 
-2. **LLM API Key**:
-   - API Key for your chosen LLM provider
+2. **OpenAI API Key** (from the setup above):
+   - Your OpenAI API key (starts with `sk-`)
+   - Hidden input for security
+
+**✅ What Happens Next:**
+- Application connects to Reddit API and fetches your data
+- Your data is analyzed and summarized
+- You can ask ChatGPT questions about your Reddit account
+- All credentials are cleared from memory when you exit
+
+**🔐 Security Promise:**
+- No credentials are ever written to files
+- No config files created or modified
+- Everything stays in memory only
+- Automatic cleanup on exit
 
 ## Usage
 
